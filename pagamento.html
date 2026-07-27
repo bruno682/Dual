@@ -200,11 +200,16 @@
             cursor: pointer;
             text-align: center;
             padding: 14px;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, border-color 0.2s ease;
         }
 
         .upload-dropzone.dragover {
             background: rgba(88, 30, 48, 0.2);
+        }
+
+        .upload-dropzone.error {
+            border-color: #B3261E;
+            background: rgba(179, 38, 30, 0.08);
         }
 
         .upload-dropzone input[type="file"] {
@@ -215,16 +220,32 @@
             color: #581E30;
             font-size: 13px;
             line-height: 1.35;
+            word-break: break-word;
         }
 
         .upload-dropzone.has-file .upload-text {
             font-weight: 700;
-            word-break: break-word;
         }
 
         .upload-dropzone .upload-hint {
             color: rgba(88, 30, 48, 0.6);
             font-size: 11px;
+        }
+
+        .upload-dropzone.has-file .upload-hint {
+            display: none;
+        }
+
+        .upload-dropzone .upload-remove {
+            appearance: none;
+            border: none;
+            background: none;
+            color: #B3261E;
+            text-decoration: underline;
+            font-family: inherit;
+            font-size: 11px;
+            cursor: pointer;
+            padding: 0;
         }
 
         .code-input {
@@ -287,7 +308,25 @@
             pointer-events: none;
         }
 
+        .btn-avancar.loading {
+            background: rgba(88, 30, 48, 0.7);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .btn-avancar svg {
+            display: block;
+        }
+
+        .submit-error {
+            display: none;
+            color: #B3261E;
+            font-size: 13px;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .submit-error.visible {
             display: block;
         }
 
@@ -506,24 +545,26 @@
             <h3>Comprovativo comunidade UA</h3>
             <p class="note">(Aplicado apenas a estudantes/docentes/funcionários da Universidade de Aveiro)</p>
             <div class="upload-grid">
-                <label class="upload-dropzone" id="dropzone-1">
-                    <input type="file" id="upload-atleta-1">
+                <div class="upload-dropzone" id="dropzone-1" tabindex="0" role="button" aria-label="Anexar comprovativo do atleta 1">
+                    <input type="file" id="upload-atleta-1" accept="application/pdf,image/*" hidden>
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 15V3M11 3L6.5 7.5M11 3L15.5 7.5" stroke="#581E30" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M4 15v3a2 2 0 002 2h10a2 2 0 002-2v-3" stroke="#581E30" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span class="upload-text">Selecione ou arraste um arquivo</span>
                     <span class="upload-hint">Tamanho maxímo 5 MB</span>
-                </label>
-                <label class="upload-dropzone" id="dropzone-2">
-                    <input type="file" id="upload-atleta-2">
+                    <button type="button" class="upload-remove" hidden>Remover ficheiro</button>
+                </div>
+                <div class="upload-dropzone" id="dropzone-2" tabindex="0" role="button" aria-label="Anexar comprovativo do atleta 2">
+                    <input type="file" id="upload-atleta-2" accept="application/pdf,image/*" hidden>
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11 15V3M11 3L6.5 7.5M11 3L15.5 7.5" stroke="#581E30" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M4 15v3a2 2 0 002 2h10a2 2 0 002-2v-3" stroke="#581E30" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <span class="upload-text">Selecione ou arraste um arquivo</span>
                     <span class="upload-hint">Tamanho maxímo 5 MB</span>
-                </label>
+                    <button type="button" class="upload-remove" hidden>Remover ficheiro</button>
+                </div>
             </div>
             <span class="field-error" id="error-estudante"></span>
             <button type="button" class="btn-avancar" id="confirm-estudante">Confirmar</button>
@@ -539,13 +580,14 @@
         <hr class="divider">
 
         <button type="button" class="btn-avancar" id="btn-efetuar">
-            Efectuar pagamento
+            <span class="btn-label">Efectuar pagamento</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13" fill="none">
                 <path d="M0 6.11364C0 5.65648 0.370596 5.28589 0.827749 5.28589H11.0918C11.549 5.28589 11.9196 5.65648 11.9196 6.11364C11.9196 6.57079 11.549 6.94139 11.0918 6.94139H0.827749C0.370596 6.94139 0 6.57079 0 6.11364Z" fill="#FFFFE0"/>
                 <path d="M5.21481 0.248332C5.53482 -0.0781447 6.05889 -0.0833918 6.38537 0.236612L11.7415 5.4866C12.068 5.8066 12.0733 6.33068 11.7533 6.65715C11.4333 6.98363 10.9092 6.98887 10.5827 6.66887L5.22653 1.41889C4.90006 1.09888 4.89481 0.574808 5.21481 0.248332Z" fill="#FFFFE0"/>
                 <path d="M5.5518 11.8347C5.22855 11.5114 5.22855 10.9873 5.5518 10.6641L10.5869 5.62891C10.9102 5.30566 11.4343 5.30566 11.7576 5.62891C12.0808 5.95217 12.0808 6.47627 11.7576 6.79953L6.72242 11.8347C6.39916 12.1579 5.87506 12.1579 5.5518 11.8347Z" fill="#FFFFE0"/>
             </svg>
         </button>
+        <span class="submit-error" id="submit-error">Não foi possível enviar a inscrição. Verifica a ligação à internet e tenta novamente.</span>
     </main>
 
     <nav class="menu-popup" id="menuPopup">
@@ -580,6 +622,7 @@
     </button>
 
     <script src="form-storage.js"></script>
+    <script src="google-sheets-config.js"></script>
     <script>
         var BASE_PRICE = 45;
         var DISCOUNT_AMOUNT = 5;
@@ -648,23 +691,68 @@
             togglePanel('codigo');
         });
 
-        function setupDropzone(zoneId, inputId) {
+        var MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+        function validateFile(file) {
+            if (file.size > MAX_FILE_SIZE) {
+                return 'O ficheiro não pode exceder 5 MB.';
+            }
+            var isPdf = file.type === 'application/pdf';
+            var isImage = file.type.indexOf('image/') === 0;
+            if (!isPdf && !isImage) {
+                return 'Formato inválido. Usa PDF ou imagem.';
+            }
+            return null;
+        }
+
+        function setupDropzone(zoneId, inputId, errorElId) {
             var zone = document.getElementById(zoneId);
             var input = document.getElementById(inputId);
             var textEl = zone.querySelector('.upload-text');
+            var removeBtn = zone.querySelector('.upload-remove');
+            var errEl = document.getElementById(errorElId);
 
-            function updateLabel(file) {
+            function showState(file) {
                 if (file) {
                     textEl.textContent = file.name;
                     zone.classList.add('has-file');
+                    removeBtn.hidden = false;
                 } else {
                     textEl.textContent = 'Selecione ou arraste um arquivo';
                     zone.classList.remove('has-file');
+                    removeBtn.hidden = true;
                 }
             }
 
+            function acceptFile(file) {
+                var error = validateFile(file);
+                if (error) {
+                    input.value = '';
+                    zone.classList.add('error');
+                    errEl.textContent = error;
+                    showState(null);
+                    return;
+                }
+                zone.classList.remove('error');
+                errEl.textContent = '';
+                showState(file);
+            }
+
             input.addEventListener('change', function () {
-                updateLabel(input.files[0]);
+                if (input.files[0]) {
+                    acceptFile(input.files[0]);
+                }
+            });
+
+            zone.addEventListener('click', function () {
+                input.click();
+            });
+
+            zone.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    input.click();
+                }
             });
 
             zone.addEventListener('dragover', function (event) {
@@ -681,13 +769,21 @@
                 zone.classList.remove('dragover');
                 if (event.dataTransfer.files.length) {
                     input.files = event.dataTransfer.files;
-                    updateLabel(input.files[0]);
+                    acceptFile(input.files[0]);
                 }
+            });
+
+            removeBtn.addEventListener('click', function (event) {
+                event.stopPropagation();
+                input.value = '';
+                zone.classList.remove('error');
+                errEl.textContent = '';
+                showState(null);
             });
         }
 
-        setupDropzone('dropzone-1', 'upload-atleta-1');
-        setupDropzone('dropzone-2', 'upload-atleta-2');
+        setupDropzone('dropzone-1', 'upload-atleta-1', 'error-estudante');
+        setupDropzone('dropzone-2', 'upload-atleta-2', 'error-estudante');
 
         document.getElementById('confirm-estudante').addEventListener('click', function () {
             var f1 = document.getElementById('upload-atleta-1').files[0];
@@ -747,12 +843,89 @@
             });
         }
 
+        function fileToBase64(file) {
+            return new Promise(function (resolve, reject) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var base64 = reader.result.split(',')[1];
+                    resolve({ nome: file.name, tipo: file.type, conteudo: base64 });
+                };
+                reader.onerror = function () {
+                    reject(new Error('Não foi possível ler o ficheiro ' + file.name));
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function buildPayload(comprovativo1, comprovativo2) {
+            var data = DualForm.getAll();
+            var inscricao = data.inscricao || {};
+            var atletas = data.atletas || {};
+
+            return {
+                nome_dupla: inscricao.nome_dupla || null,
+                nivel: inscricao.nivel || null,
+                categoria: inscricao.categoria || null,
+                email: inscricao.email || null,
+                telemovel: inscricao.telemovel || null,
+
+                nome_atleta_1: atletas.nome_atleta_1 || null,
+                nome_atleta_2: atletas.nome_atleta_2 || null,
+                tshirt_atleta_1: atletas.tshirt_atleta_1 || null,
+                tshirt_atleta_2: atletas.tshirt_atleta_2 || null,
+                nif_atleta_1: atletas.nif_atleta_1 || null,
+                nif_atleta_2: atletas.nif_atleta_2 || null,
+
+                subtotal: BASE_PRICE,
+                desconto_tipo: discountState.confirmed ? discountState.type : null,
+                desconto_valor: discountState.confirmed ? DISCOUNT_AMOUNT : 0,
+                total: computeTotal(),
+
+                comprovativo_atleta_1_ficheiro: comprovativo1,
+                comprovativo_atleta_2_ficheiro: comprovativo2
+            };
+        }
+
+        function setButtonLoading(loading) {
+            var label = btnEfetuar.querySelector('.btn-label');
+            btnEfetuar.classList.toggle('loading', loading);
+            label.textContent = loading ? 'A enviar...' : 'Efectuar pagamento';
+        }
+
         btnEfetuar.addEventListener('click', function () {
-            if (btnEfetuar.classList.contains('disabled')) {
+            if (btnEfetuar.classList.contains('disabled') || btnEfetuar.classList.contains('loading')) {
                 return;
             }
+
             persistPagamento();
-            window.location.href = 'transferencia.html';
+
+            var submitErrorEl = document.getElementById('submit-error');
+            submitErrorEl.classList.remove('visible');
+            setButtonLoading(true);
+
+            var hasComprovativos = discountState.confirmed && discountState.type === 'estudante_ua';
+            var f1 = hasComprovativos ? document.getElementById('upload-atleta-1').files[0] : null;
+            var f2 = hasComprovativos ? document.getElementById('upload-atleta-2').files[0] : null;
+
+            Promise.all([
+                f1 ? fileToBase64(f1) : Promise.resolve(null),
+                f2 ? fileToBase64(f2) : Promise.resolve(null)
+            ])
+                .then(function (results) {
+                    var payload = buildPayload(results[0], results[1]);
+                    return submitToGoogleSheets(payload);
+                })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Google Sheets request failed with status ' + response.status);
+                    }
+                    window.location.href = 'transferencia.html';
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    setButtonLoading(false);
+                    submitErrorEl.classList.add('visible');
+                });
         });
 
         (function restorePagamento() {
