@@ -112,17 +112,6 @@
             margin-bottom: 20px;
         }
 
-        .submit-error {
-            display: none;
-            color: #B3261E;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .submit-error.visible {
-            display: block;
-        }
-
         .menu-popup {
             position: fixed;
             top: 2.8vh;
@@ -312,8 +301,6 @@
         <p>Você recebera um email assim que o pagamento ser confirmado</p>
         <p>Vamos-nos do <strong>Dual Round 3</strong>.</p>
         <p>Em caso de dúvida entra em contacto <strong>dualeventos@gmail.com</strong></p>
-
-        <span class="submit-error" id="submit-error">Não foi possível enviar a inscrição. Atualiza a página para tentar novamente.</span>
     </main>
 
     <nav class="menu-popup" id="menuPopup">
@@ -348,57 +335,11 @@
     </button>
 
     <script src="form-storage.js"></script>
-    <script src="google-sheets-config.js"></script>
     <script>
-        function buildPayload() {
-            var data = DualForm.getAll();
-            var inscricao = data.inscricao || {};
-            var atletas = data.atletas || {};
-            var pagamento = data.pagamento || {};
-
-            return {
-                nome_dupla: inscricao.nome_dupla || null,
-                nivel: inscricao.nivel || null,
-                categoria: inscricao.categoria || null,
-                email: inscricao.email || null,
-                telemovel: inscricao.telemovel || null,
-
-                nome_atleta_1: atletas.nome_atleta_1 || null,
-                nome_atleta_2: atletas.nome_atleta_2 || null,
-                tshirt_atleta_1: atletas.tshirt_atleta_1 || null,
-                tshirt_atleta_2: atletas.tshirt_atleta_2 || null,
-                nif_atleta_1: atletas.nif_atleta_1 || null,
-                nif_atleta_2: atletas.nif_atleta_2 || null,
-
-                subtotal: pagamento.subtotal || null,
-                desconto_tipo: pagamento.desconto_tipo || null,
-                desconto_valor: pagamento.desconto_valor || 0,
-                total: pagamento.total || null
-            };
-        }
-
-        var submitError = document.getElementById('submit-error');
-
-        (function autoSubmit() {
-            var data = DualForm.getAll();
-            if (!data.inscricao) {
-                return;
-            }
-
-            var payload = buildPayload();
-
-            submitToGoogleSheets(payload)
-                .then(function (response) {
-                    if (!response.ok) {
-                        throw new Error('Google Sheets request failed with status ' + response.status);
-                    }
-                    DualForm.clear();
-                })
-                .catch(function (error) {
-                    console.error(error);
-                    submitError.classList.add('visible');
-                });
-        })();
+        // O envio para o Google Sheets já acontece em pagamento.html (é lá que
+        // os ficheiros de comprovativo ainda estão em memória). Esta página
+        // apenas confirma o passo final e limpa os dados da sessão.
+        DualForm.clear();
 
         function toggleMenu(event) {
             event.stopPropagation();
