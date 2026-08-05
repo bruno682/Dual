@@ -81,11 +81,10 @@
             top: 0;
             left: 0;
             width: 100%;
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: flex-start;
+            display: flex;
+            justify-content: center;
             padding: 4vh 5vw 2vh;
-            z-index: 10;
+            z-index: 5;
         }
 
         .brand {
@@ -93,8 +92,6 @@
             flex-direction: column;
             align-items: center;
             gap: 0.4vh;
-            grid-column: 2;
-            justify-self: center;
         }
 
         .brand .logo {
@@ -109,98 +106,6 @@
             display: block;
         }
 
-        .menu-icons {
-            display: flex;
-            flex-direction: column;
-            gap: 0.9vh;
-            grid-column: 3;
-            justify-self: end;
-        }
-
-        .menu-dots {
-            width: clamp(24px, 2.2vw, 40px);
-            height: auto;
-            display: block;
-            cursor: pointer;
-            transition: opacity 0.2s ease;
-        }
-
-        .menu-dots:hover {
-            opacity: 0.6;
-        }
-
-        .menu-dots.is-hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .menu-popup {
-            position: absolute;
-            top: 2.8vh;
-            right: 2.5vw;
-            width: 240px;
-            max-width: 82vw;
-            min-height: 170px;
-            background: #581E30;
-            border-radius: 30px;
-            padding: 26px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: clamp(14px, 2.4vh, 24px);
-            z-index: 20;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.96);
-            transform-origin: top right;
-            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
-        }
-
-        .menu-popup.open {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1);
-        }
-
-        .popup-close {
-            position: absolute;
-            top: 22px;
-            right: 26px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .popup-close svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            transition: transform 0.2s ease;
-        }
-
-        .popup-close:hover svg {
-            transform: rotate(90deg);
-        }
-
-        .popup-link {
-            color: #FFFFE0;
-            -webkit-text-stroke-width: 1.1px;
-            -webkit-text-stroke-color: #FFFFE0;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: clamp(17px, 2vw, 22px);
-            font-style: normal;
-            font-weight: 200;
-            line-height: normal;
-            letter-spacing: 1.3px;
-            text-decoration: none;
-            width: fit-content;
-            transition: opacity 0.2s ease;
-        }
-
-        .popup-link:hover {
-            opacity: 0.75;
-        }
-
         .cta {
             position: absolute;
             top: 51%;
@@ -208,23 +113,7 @@
             transform: translate(-50%, -50%);
             width: clamp(220px, 27vw, 560px);
             display: block;
-            z-index: 10;
-            transition: transform 0.25s ease;
-            animation: ctaPulse 1s ease-in-out infinite;
-        }
-
-        .cta:hover {
-            animation-play-state: paused;
-            transform: translate(-50%, -50%) scale(1.04);
-        }
-
-        @keyframes ctaPulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.06);
-            }
+            z-index: 5;
         }
 
         .cta img {
@@ -234,53 +123,97 @@
             filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
         }
 
-        .mobile-menu-trigger {
-            display: none;
+        .construction-overlay {
             position: absolute;
-            bottom: 4vh;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 176px;
-            height: 51px;
-            background: #581E30;
-            border: none;
-            border-radius: 999px;
+            inset: 0;
+            z-index: 30;
+            pointer-events: none;
+            background: rgba(88, 30, 48, 0.6);
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            cursor: pointer;
-            z-index: 15;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            gap: 3.5vh;
+            text-align: center;
+            padding: 0 8vw;
         }
 
-        .mobile-menu-trigger.scroll-hidden {
-            transform: translateX(-50%) translateY(150%);
-            opacity: 0;
-            pointer-events: none;
+        .construction-overlay p {
+            color: #FFFFE0;
+            margin: 0;
         }
 
-        .mobile-menu-trigger svg {
-            width: 22px;
-            height: auto;
-            display: block;
+        .construction-overlay .construction-line1 {
+            font-size: clamp(22px, 4vw, 32px);
+            font-weight: 700;
+        }
+
+        .construction-overlay .construction-line2 {
+            font-size: clamp(15px, 2.4vw, 20px);
+            font-weight: 400;
+            margin-top: 32.4vh;
+        }
+
+        .construction-progress {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border: 1.5px solid #FFFFE0;
+            border-radius: 999px;
+        }
+
+        .construction-progress .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #FFFFE0;
             flex-shrink: 0;
+            animation: dotWave 1.6s ease-in-out infinite;
         }
 
-        .mobile-menu-trigger .menu-word {
-            height: 18px;
-            width: auto;
-            display: block;
+        .construction-progress .dot:nth-child(1) { animation-delay: 0s; }
+        .construction-progress .dot:nth-child(2) { animation-delay: 0.1s; }
+        .construction-progress .dot:nth-child(3) { animation-delay: 0.2s; }
+        .construction-progress .dot:nth-child(4) { animation-delay: 0.3s; }
+        .construction-progress .dot:nth-child(5) { animation-delay: 0.4s; }
+        .construction-progress .dot:nth-child(6) { animation-delay: 0.5s; }
+        .construction-progress .dot:nth-child(7) { animation-delay: 0.6s; }
+        .construction-progress .dot:nth-child(8) { animation-delay: 0.7s; }
+        .construction-progress .dot:nth-child(9) { animation-delay: 0.8s; }
+        .construction-progress .dot:nth-child(10) { animation-delay: 0.9s; }
+        .construction-progress .dot:nth-child(11) { animation-delay: 1s; }
+        .construction-progress .dot:nth-child(12) { animation-delay: 1.1s; }
+        .construction-progress .dot:nth-child(13) { animation-delay: 1.2s; }
+
+        @keyframes dotWave {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            12% {
+                transform: scale(1.4);
+                opacity: 1;
+            }
+            32% {
+                transform: scale(0.85);
+                opacity: 0.8;
+            }
+            52% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+            72% {
+                transform: scale(0.2);
+                opacity: 0.25;
+            }
+            88%, 100% {
+                transform: scale(0);
+                opacity: 0;
+            }
         }
 
         @media (max-width: 768px) {
-            .menu-icons {
-                display: none;
-            }
-
-            .mobile-menu-trigger {
-                display: flex;
-            }
-
             .cta {
                 width: clamp(200px, 60vw, 340px);
                 top: 50%;
@@ -292,55 +225,6 @@
 
             .hero-slideshow {
                 display: block;
-            }
-
-            .menu-popup {
-                top: auto;
-                bottom: 4vh;
-                left: 50%;
-                right: auto;
-                width: 176px;
-                max-width: 176px;
-                min-height: 0;
-                background: #FFFFE0;
-                border-radius: 26px;
-                padding: 30px 20px 70px;
-                align-items: center;
-                opacity: 1;
-                visibility: visible;
-                transform: translateX(-50%);
-                clip-path: inset(100% 0 0 0);
-                pointer-events: none;
-                transition: clip-path 0.35s ease;
-                z-index: 14;
-            }
-
-            .menu-popup.open {
-                transform: translateX(-50%);
-                clip-path: inset(0 0 0 0);
-                pointer-events: auto;
-            }
-
-            .popup-close {
-                display: none;
-            }
-
-            .popup-link {
-                color: #581E30;
-                -webkit-text-stroke-color: #581E30;
-                font-size: 18px;
-                letter-spacing: 1px;
-                white-space: nowrap;
-                width: 100%;
-                text-align: center;
-            }
-
-            .mobile-menu-trigger svg {
-                transition: transform 0.25s ease;
-            }
-
-            .mobile-menu-trigger.open svg {
-                transform: rotate(180deg);
             }
         }
     </style>
@@ -363,45 +247,31 @@
                 <img class="logo" src="Logo%20dual.svg" alt="Dual">
                 <img class="round-label" src="Round%203.svg" alt="round 3">
             </div>
-            <div class="menu-icons">
-                <img class="menu-dots" id="menuToggle" src="Menu%20desktop.svg" alt="Menu" onclick="toggleMenu(event)">
-            </div>
         </header>
 
-        <nav class="menu-popup" id="menuPopup">
-            <span class="popup-close" onclick="closeMenu()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 473 473" fill="none">
-                    <path d="M282.748 282.747C308.529 256.966 308.529 215.063 282.748 189.344C256.966 163.562 215.064 163.562 189.345 189.344C163.563 215.125 163.563 257.027 189.345 282.747C215.126 308.528 257.028 308.528 282.748 282.747Z" fill="#FFFFE0"/>
-                    <path d="M189.283 189.283C163.502 215.064 163.502 256.967 189.283 282.686C215.064 308.468 256.967 308.468 282.686 282.686C308.467 256.905 308.467 215.003 282.686 189.283C256.905 163.502 215.003 163.502 189.283 189.283Z" fill="#FFFFE0"/>
-                    <path d="M274.318 274.318C248.537 300.1 248.537 342.002 274.318 367.722C300.099 393.503 342.002 393.503 367.721 367.722C393.503 341.94 393.503 300.038 367.721 274.318C341.94 248.537 300.038 248.537 274.318 274.318Z" fill="#FFFFE0"/>
-                    <path d="M359.292 359.291C333.51 385.072 333.51 426.975 359.292 452.694C385.073 478.475 426.975 478.475 452.695 452.694C478.476 426.913 478.476 385.011 452.695 359.291C426.914 333.51 385.011 333.51 359.292 359.291Z" fill="#FFFFE0"/>
-                    <path d="M197.713 274.256C171.931 248.475 130.029 248.475 104.309 274.256C78.5282 300.037 78.5282 341.939 104.309 367.659C130.091 393.44 171.993 393.44 197.713 367.659C223.494 341.878 223.494 299.976 197.713 274.256Z" fill="#FFFFE0"/>
-                    <path d="M112.739 359.291C86.9579 333.51 45.0557 333.51 19.3359 359.291C-6.44531 385.072 -6.44531 426.975 19.3359 452.694C45.1172 478.475 87.0194 478.475 112.739 452.694C138.52 426.913 138.52 385.011 112.739 359.291Z" fill="#FFFFE0"/>
-                    <path d="M197.713 197.712C223.494 171.931 223.494 130.028 197.713 104.309C171.931 78.5273 130.029 78.5273 104.309 104.309C78.5282 130.09 78.5282 171.992 104.309 197.712C130.091 223.493 171.993 223.493 197.713 197.712Z" fill="#FFFFE0"/>
-                    <path d="M112.739 112.739C138.52 86.9579 138.52 45.0557 112.739 19.3359C86.9579 -6.44531 45.0557 -6.44531 19.3359 19.3359C-6.44531 45.0557 -6.44531 87.0194 19.3359 112.739C45.1172 138.52 87.0194 138.52 112.739 112.739Z" fill="#FFFFE0"/>
-                    <path d="M274.318 197.712C300.099 223.493 342.002 223.493 367.721 197.712C393.503 171.931 393.503 130.028 367.721 104.309C341.94 78.5273 300.038 78.5273 274.318 104.309C248.537 130.09 248.537 171.992 274.318 197.712Z" fill="#FFFFE0"/>
-                    <path d="M359.292 112.739C385.073 138.52 426.975 138.52 452.695 112.739C478.476 86.9579 478.476 45.0557 452.695 19.3359C426.914 -6.44531 385.011 -6.44531 359.292 19.3359C333.51 45.1172 333.51 87.0194 359.292 112.739Z" fill="#FFFFE0"/>
-                </svg>
-            </span>
-            <a class="popup-link" href="#exercicios">Exercícios</a>
-            <a class="popup-link" href="#contactos">Contactos</a>
-            <a class="popup-link" href="inscricao.html">Inscrição</a>
-        </nav>
+        <div class="cta">
+            <img src="breve.svg" alt="">
+        </div>
 
-        <a class="cta" href="inscricao.html">
-            <img src="Inscrever.svg" alt="Inscrever agora">
-        </a>
-
-        <button class="mobile-menu-trigger" id="mobileMenuToggle" type="button" onclick="toggleMenu(event)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="14" viewBox="0 0 551 353" fill="none">
-                <path d="M220.701 22.5465C190.641 52.6083 190.641 101.468 220.701 131.458C250.762 161.52 299.619 161.52 329.608 131.458C359.668 101.396 359.668 52.5363 329.608 22.5465C299.547 -7.5155 250.69 -7.5155 220.701 22.5465Z" fill="#FFFFE0"/>
-                <path d="M319.851 121.629C289.79 151.691 289.79 200.551 319.851 230.541C349.911 260.603 398.768 260.603 428.757 230.541C458.818 200.479 458.818 151.619 428.757 121.629C398.697 91.5665 349.839 91.5665 319.851 121.629Z" fill="#FFFFE0"/>
-                <path d="M418.928 220.711C388.868 250.773 388.868 299.633 418.928 329.623C448.989 359.685 497.846 359.685 527.835 329.623C557.896 299.561 557.896 250.701 527.835 220.711C497.775 190.649 448.917 190.649 418.928 220.711Z" fill="#FFFFE0"/>
-                <path d="M230.53 121.629C200.469 91.5665 151.612 91.5665 121.623 121.629C91.5626 151.691 91.5626 200.551 121.623 230.541C151.684 260.603 200.541 260.603 230.53 230.541C260.59 200.479 260.59 151.619 230.53 121.629Z" fill="#FFFFE0"/>
-                <path d="M131.452 220.711C101.392 190.649 52.5341 190.649 22.5454 220.711C-7.51514 250.773 -7.51514 299.633 22.5454 329.623C52.6059 359.685 101.463 359.685 131.452 329.623C161.513 299.561 161.513 250.701 131.452 220.711Z" fill="#FFFFE0"/>
-            </svg>
-            <img class="menu-word" src="Menu%20texto.svg" alt="Menu">
-        </button>
+        <div class="construction-overlay">
+            <p class="construction-line1">Ainda estamos a aquecer.</p>
+            <p class="construction-line2">Mantém-te atento desse lado.</p>
+            <div class="construction-progress">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
     </section>
 
     <script>
@@ -415,63 +285,6 @@
                     slides[current].classList.add('active');
                 }, 5000);
             }
-        })();
-
-        function toggleMenu(event) {
-            event.stopPropagation();
-            var popup = document.getElementById('menuPopup');
-            var toggle = document.getElementById('menuToggle');
-            var mobileToggle = document.getElementById('mobileMenuToggle');
-            var isOpen = popup.classList.toggle('open');
-            toggle.classList.toggle('is-hidden', isOpen);
-            if (mobileToggle) {
-                mobileToggle.classList.toggle('open', isOpen);
-            }
-        }
-
-        function closeMenu() {
-            document.getElementById('menuPopup').classList.remove('open');
-            document.getElementById('menuToggle').classList.remove('is-hidden');
-            var mobileToggle = document.getElementById('mobileMenuToggle');
-            if (mobileToggle) {
-                mobileToggle.classList.remove('open');
-            }
-        }
-
-        document.addEventListener('click', function (event) {
-            var popup = document.getElementById('menuPopup');
-            var toggle = document.getElementById('menuToggle');
-            if (popup.classList.contains('open') && !popup.contains(event.target) && event.target !== toggle) {
-                closeMenu();
-            }
-        });
-
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                closeMenu();
-            }
-        });
-
-        (function () {
-            var trigger = document.getElementById('mobileMenuToggle');
-            var popup = document.getElementById('menuPopup');
-            var lastScrollY = window.scrollY;
-            var scrollThreshold = 10;
-
-            window.addEventListener('scroll', function () {
-                if (!trigger) return;
-                if (popup && popup.classList.contains('open')) return;
-
-                var currentScrollY = window.scrollY;
-                if (Math.abs(currentScrollY - lastScrollY) < scrollThreshold) return;
-
-                if (currentScrollY > lastScrollY && currentScrollY > 80) {
-                    trigger.classList.add('scroll-hidden');
-                } else {
-                    trigger.classList.remove('scroll-hidden');
-                }
-                lastScrollY = currentScrollY;
-            }, { passive: true });
         })();
     </script>
 </body>
