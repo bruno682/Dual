@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual — Round 3 | Exercícios</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="stylesheet" href="https://use.typekit.net/sbt4grx.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100%;
+            background: #FFFFE0;
+        }
+
+        body {
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            color: #581E30;
+            position: relative;
+            padding-bottom: 120px;
+            transition: background 0.35s ease, color 0.35s ease;
+        }
+
+        body[data-mode="avancado"] {
+            background: #581E30;
+            color: #FFFFE0;
+        }
+
+        .bg-photo {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: url("57.jpg") center top / cover no-repeat fixed;
+            opacity: 0.16;
+            mix-blend-mode: exclusion;
+            pointer-events: none;
+        }
+
+        .bg-grain {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        }
+
+        .page-nav {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: flex-start;
+            padding: 4vh 5vw 2vh;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4vh;
+            grid-column: 2;
+            justify-self: center;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .brand:hover {
+            opacity: 0.8;
+        }
+
+        .brand .logo {
+            width: clamp(90px, 7.2vw, 150px);
+            height: auto;
+            display: block;
+        }
+
+        .round-label {
+            width: clamp(64px, 5.2vw, 108px);
+            height: auto;
+            display: block;
+        }
+
+        .menu-icons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9vh;
+            grid-column: 3;
+            justify-self: end;
+        }
+
+        .menu-dots {
+            width: clamp(24px, 2.2vw, 40px);
+            height: auto;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .menu-dots:hover {
+            opacity: 0.6;
+        }
+
+        .menu-dots.is-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        body[data-mode="avancado"] .logo-dark,
+        body[data-mode="avancado"] .round-dark,
+        body[data-mode="avancado"] .menu-dots-dark {
+            display: none;
+        }
+
+        body:not([data-mode="avancado"]) .logo-light,
+        body:not([data-mode="avancado"]) .round-light,
+        body:not([data-mode="avancado"]) .menu-dots-light {
+            display: none;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 560px;
+            margin: 0 auto;
+            padding: 0 6vw;
+        }
+
+        .mode-toggle {
+            display: flex;
+            width: fit-content;
+            margin: 1.5vh auto 3.4vh;
+            border: 1.5px solid currentColor;
+            border-radius: 999px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .mode-btn {
+            appearance: none;
+            border: none;
+            background: none;
+            font-family: "5by7", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-style: normal;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: normal;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            color: inherit;
+            padding: 9px 22px;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: #581E30;
+            color: #FFFFE0;
+        }
+
+        body[data-mode="avancado"] .mode-btn.active {
+            background: #FFFFE0;
+            color: #581E30;
+        }
+
+        .stations {
+            display: flex;
+            flex-direction: column;
+            gap: 2.4vh;
+        }
+
+        .station-body {
+            min-width: 0;
+        }
+
+        .station-name {
+            text-align: center;
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            margin-bottom: 10px;
+        }
+
+        .station-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .s-card {
+            background: #581E30;
+            border-radius: 12px;
+            padding: 10px 14px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            transition: background 0.35s ease;
+        }
+
+        body[data-mode="avancado"] .s-card {
+            background: #FFFFE0;
+        }
+
+        .s-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #F0B27A;
+            margin-bottom: 2px;
+        }
+
+        body[data-mode="avancado"] .s-label {
+            color: #A85C2E;
+        }
+
+        .s-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #FFFFE0;
+        }
+
+        .s-extra {
+            font-size: 15px;
+            font-weight: 400;
+            color: #FFFFE0;
+        }
+
+        body[data-mode="avancado"] .s-value,
+        body[data-mode="avancado"] .s-extra {
+            color: #581E30;
+        }
+
+        .menu-popup {
+            position: fixed;
+            top: 2.8vh;
+            right: 2.5vw;
+            width: 240px;
+            max-width: 82vw;
+            min-height: 170px;
+            background: #34121B;
+            border: 1px solid rgba(255, 255, 224, 0.15);
+            border-radius: 30px;
+            padding: 26px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: clamp(14px, 2.4vh, 24px);
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96);
+            transform-origin: top right;
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+        }
+
+        .menu-popup.open {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 22px;
+            right: 26px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .popup-close svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .popup-close:hover svg {
+            transform: rotate(90deg);
+        }
+
+        .popup-link {
+            color: #FFFFE0;
+            -webkit-text-stroke-width: 1.1px;
+            -webkit-text-stroke-color: #FFFFE0;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: clamp(17px, 2vw, 22px);
+            font-style: normal;
+            font-weight: 200;
+            line-height: normal;
+            letter-spacing: 1.3px;
+            text-decoration: none;
+            width: fit-content;
+            transition: opacity 0.2s ease;
+        }
+
+        .popup-link:hover {
+            opacity: 0.75;
+        }
+
+        .mobile-menu-trigger {
+            display: none;
+            position: fixed;
+            bottom: 4vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 176px;
+            height: 51px;
+            background: #34121B;
+            border: none;
+            border-radius: 999px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            z-index: 15;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .mobile-menu-trigger.scroll-hidden {
+            transform: translateX(-50%) translateY(150%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .mobile-menu-trigger svg {
+            width: 22px;
+            height: auto;
+            display: block;
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+        }
+
+        .mobile-menu-trigger.open svg {
+            transform: rotate(180deg);
+        }
+
+        .mobile-menu-trigger .menu-word {
+            height: 18px;
+            width: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .menu-icons {
+                display: none;
+            }
+
+            .mobile-menu-trigger {
+                display: flex;
+            }
+
+            .menu-popup {
+                top: auto;
+                bottom: 4vh;
+                left: 50%;
+                right: auto;
+                width: 176px;
+                max-width: 176px;
+                min-height: 0;
+                background: #FFFFE0;
+                border: 0.3px solid rgba(88, 30, 48, 0.25);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+                border-radius: 26px;
+                padding: 30px 20px 70px;
+                align-items: center;
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(-50%);
+                clip-path: inset(100% 0 0 0);
+                pointer-events: none;
+                transition: clip-path 0.35s ease;
+                z-index: 14;
+            }
+
+            .menu-popup.open {
+                transform: translateX(-50%);
+                clip-path: inset(0 0 0 0);
+                pointer-events: auto;
+            }
+
+            .popup-close {
+                display: none;
+            }
+
+            .popup-link {
+                color: #581E30;
+                -webkit-text-stroke-color: #581E30;
+                font-size: 18px;
+                letter-spacing: 1px;
+                white-space: nowrap;
+                width: 100%;
+                text-align: center;
+            }
+
+            .s-value {
+                font-size: 14px;
+            }
+
+            .s-extra {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body data-mode="regular">
+    <div class="bg-photo"></div>
+    <div class="bg-grain"></div>
+
+    <header class="page-nav">
+        <a class="brand" href="index.html">
+            <img class="logo logo-dark" src="Logo%20dual%20dark.svg" alt="Dual">
+            <img class="logo logo-light" src="Logo%20dual.svg" alt="Dual">
+            <img class="round-label round-dark" src="Round%203%20dark.svg" alt="round 3">
+            <img class="round-label round-light" src="Round%203.svg" alt="round 3">
+        </a>
+        <div class="menu-icons">
+            <img class="menu-dots menu-dots-dark" id="menuToggleDark" src="Menu%20desktop%20dark.svg" alt="Menu" onclick="toggleMenu(event)">
+            <img class="menu-dots menu-dots-light" id="menuToggleLight" src="Menu%20desktop.svg" alt="Menu" onclick="toggleMenu(event)">
+        </div>
+    </header>
+
+    <main class="page">
+        <div class="mode-toggle" id="modeToggle" role="group" aria-label="Nível">
+            <button type="button" class="mode-btn active" data-mode="regular">Regular</button>
+            <button type="button" class="mode-btn" data-mode="avancado">Avançado</button>
+        </div>
+
+        <div class="stations" id="stations"></div>
+    </main>
+
+    <nav class="menu-popup" id="menuPopup">
+        <span class="popup-close" onclick="closeMenu()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 473 473" fill="none">
+                <path d="M282.748 282.747C308.529 256.966 308.529 215.063 282.748 189.344C256.966 163.562 215.064 163.562 189.345 189.344C163.563 215.125 163.563 257.027 189.345 282.747C215.126 308.528 257.028 308.528 282.748 282.747Z" fill="#FFFFE0"/>
+                <path d="M189.283 189.283C163.502 215.064 163.502 256.967 189.283 282.686C215.064 308.468 256.967 308.468 282.686 282.686C308.467 256.905 308.467 215.003 282.686 189.283C256.905 163.502 215.003 163.502 189.283 189.283Z" fill="#FFFFE0"/>
+                <path d="M274.318 274.318C248.537 300.1 248.537 342.002 274.318 367.722C300.099 393.503 342.002 393.503 367.721 367.722C393.503 341.94 393.503 300.038 367.721 274.318C341.94 248.537 300.038 248.537 274.318 274.318Z" fill="#FFFFE0"/>
+                <path d="M359.292 359.291C333.51 385.072 333.51 426.975 359.292 452.694C385.073 478.475 426.975 478.475 452.695 452.694C478.476 426.913 478.476 385.011 452.695 359.291C426.914 333.51 385.011 333.51 359.292 359.291Z" fill="#FFFFE0"/>
+                <path d="M197.713 274.256C171.931 248.475 130.029 248.475 104.309 274.256C78.5282 300.037 78.5282 341.939 104.309 367.659C130.091 393.44 171.993 393.44 197.713 367.659C223.494 341.878 223.494 299.976 197.713 274.256Z" fill="#FFFFE0"/>
+                <path d="M112.739 359.291C86.9579 333.51 45.0557 333.51 19.3359 359.291C-6.44531 385.072 -6.44531 426.975 19.3359 452.694C45.1172 478.475 87.0194 478.475 112.739 452.694C138.52 426.913 138.52 385.011 112.739 359.291Z" fill="#FFFFE0"/>
+                <path d="M197.713 197.712C223.494 171.931 223.494 130.028 197.713 104.309C171.931 78.5273 130.029 78.5273 104.309 104.309C78.5282 130.09 78.5282 171.992 104.309 197.712C130.091 223.493 171.993 223.493 197.713 197.712Z" fill="#FFFFE0"/>
+                <path d="M112.739 112.739C138.52 86.9579 138.52 45.0557 112.739 19.3359C86.9579 -6.44531 45.0557 -6.44531 19.3359 19.3359C-6.44531 45.0557 -6.44531 87.0194 19.3359 112.739C45.1172 138.52 87.0194 138.52 112.739 112.739Z" fill="#FFFFE0"/>
+                <path d="M274.318 197.712C300.099 223.493 342.002 223.493 367.721 197.712C393.503 171.931 393.503 130.028 367.721 104.309C341.94 78.5273 300.038 78.5273 274.318 104.309C248.537 130.09 248.537 171.992 274.318 197.712Z" fill="#FFFFE0"/>
+                <path d="M359.292 112.739C385.073 138.52 426.975 138.52 452.695 112.739C478.476 86.9579 478.476 45.0557 452.695 19.3359C426.914 -6.44531 385.011 -6.44531 359.292 19.3359C333.51 45.1172 333.51 87.0194 359.292 112.739Z" fill="#FFFFE0"/>
+            </svg>
+        </span>
+        <a class="popup-link" href="exercicios.html">Exercícios</a>
+        <a class="popup-link" href="index.html#contactos">Contactos</a>
+        <a class="popup-link" href="inscricao.html">Inscrição</a>
+    </nav>
+
+    <button class="mobile-menu-trigger" id="mobileMenuToggle" type="button" onclick="toggleMenu(event)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="14" viewBox="0 0 551 353" fill="none">
+            <path d="M220.701 22.5465C190.641 52.6083 190.641 101.468 220.701 131.458C250.762 161.52 299.619 161.52 329.608 131.458C359.668 101.396 359.668 52.5363 329.608 22.5465C299.547 -7.5155 250.69 -7.5155 220.701 22.5465Z" fill="#FFFFE0"/>
+            <path d="M319.851 121.629C289.79 151.691 289.79 200.551 319.851 230.541C349.911 260.603 398.768 260.603 428.757 230.541C458.818 200.479 458.818 151.619 428.757 121.629C398.697 91.5665 349.839 91.5665 319.851 121.629Z" fill="#FFFFE0"/>
+            <path d="M418.928 220.711C388.868 250.773 388.868 299.633 418.928 329.623C448.989 359.685 497.846 359.685 527.835 329.623C557.896 299.561 557.896 250.701 527.835 220.711C497.775 190.649 448.917 190.649 418.928 220.711Z" fill="#FFFFE0"/>
+            <path d="M230.53 121.629C200.469 91.5665 151.612 91.5665 121.623 121.629C91.5626 151.691 91.5626 200.551 121.623 230.541C151.684 260.603 200.541 260.603 230.53 230.541C260.59 200.479 260.59 151.619 230.53 121.629Z" fill="#FFFFE0"/>
+            <path d="M131.452 220.711C101.392 190.649 52.5341 190.649 22.5454 220.711C-7.51514 250.773 -7.51514 299.633 22.5454 329.623C52.6059 359.685 101.463 359.685 131.452 329.623C161.513 299.561 161.513 250.701 131.452 220.711Z" fill="#FFFFE0"/>
+        </svg>
+        <img class="menu-word" src="Menu%20texto.svg" alt="Menu">
+    </button>
+
+    <script>
+        var stationsData = {
+            regular: [
+                { name: 'Box Jump', m: { value: '100 reps', extra: 'Box de 50 cm' }, f: { value: '80 reps', extra: 'Box de 50 cm' } },
+                { name: 'Single Arm Snatch', m: { value: '100 reps', extra: '12,5 kg' }, f: { value: '100 reps', extra: '7,5 kg' } },
+                { name: 'Walking Lunge', m: { value: '100m', extra: '10 kg' }, f: { value: '100m', extra: '5 kg' } },
+                { name: 'Flexões', m: { value: '100 reps' }, f: { value: '60 reps' } },
+                { name: 'Farmer Carry', m: { value: '200m', extra: '16 kg' }, f: { value: '200m', extra: '12 kg' } },
+                { name: 'Bear Crawl', m: { value: '40m' }, f: { value: '40m' } },
+                { name: 'Burpee Broad', m: { value: '40m' }, f: { value: '40m' } },
+                { name: 'Partner Wallball', m: { value: '100 reps', extra: '6 kg' }, f: { value: '100 reps', extra: '4 kg' } }
+            ],
+            avancado: [
+                { name: 'Box Jump', m: { value: '100 reps', extra: 'Box de 60 cm' }, f: { value: '80 reps', extra: 'Box de 60 cm' } },
+                { name: 'Single Arm Snatch', m: { value: '100 reps', extra: '17,5 kg' }, f: { value: '100 reps', extra: '12,5 kg' } },
+                { name: 'Walking Lunge', m: { value: '100m', extra: '20 kg' }, f: { value: '100m', extra: '10 kg' } },
+                { name: 'Flexões', m: { value: '120 reps' }, f: { value: '80 reps' } },
+                { name: 'Farmer Carry', m: { value: '200m', extra: '24 kg' }, f: { value: '200m', extra: '16 kg' } },
+                { name: 'Bear Crawl / Crab Walk', m: { value: '80m' }, f: { value: '80m' } },
+                { name: 'Burpee Broad', m: { value: '80m' }, f: { value: '80m' } },
+                { name: 'Partner Wallball', m: { value: '100 reps', extra: '8 kg' }, f: { value: '100 reps', extra: '6 kg' } }
+            ]
+        };
+
+        var currentLevel = 'regular';
+        var stationsEl = document.getElementById('stations');
+
+        function renderStations() {
+            var list = stationsData[currentLevel];
+            stationsEl.innerHTML = list.map(function (s) {
+                var mExtra = s.m.extra ? '<span class="s-extra">' + s.m.extra + '</span>' : '';
+                var fExtra = s.f.extra ? '<span class="s-extra">' + s.f.extra + '</span>' : '';
+                return (
+                    '<div class="station-body">' +
+                        '<h2 class="station-name">' + s.name + '</h2>' +
+                        '<div class="station-cards">' +
+                            '<div class="s-card"><span class="s-label">Masculino / Misto</span><span class="s-value">' + s.m.value + '</span>' + mExtra + '</div>' +
+                            '<div class="s-card"><span class="s-label">Feminino</span><span class="s-value">' + s.f.value + '</span>' + fExtra + '</div>' +
+                        '</div>' +
+                    '</div>'
+                );
+            }).join('');
+        }
+
+        var modeToggle = document.getElementById('modeToggle');
+        var modeButtons = modeToggle.querySelectorAll('.mode-btn');
+
+        modeToggle.addEventListener('click', function (event) {
+            var btn = event.target.closest('.mode-btn');
+            if (!btn) return;
+
+            modeButtons.forEach(function (b) {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+
+            currentLevel = btn.dataset.mode;
+            document.body.setAttribute('data-mode', currentLevel);
+            renderStations();
+        });
+
+        renderStations();
+
+        function toggleMenu(event) {
+            event.stopPropagation();
+            var popup = document.getElementById('menuPopup');
+            var toggles = document.querySelectorAll('.menu-dots');
+            var mobileToggle = document.getElementById('mobileMenuToggle');
+            var isOpen = popup.classList.toggle('open');
+            toggles.forEach(function (toggle) {
+                toggle.classList.toggle('is-hidden', isOpen);
+            });
+            if (mobileToggle) {
+                mobileToggle.classList.toggle('open', isOpen);
+            }
+        }
+
+        function closeMenu() {
+            document.getElementById('menuPopup').classList.remove('open');
+            document.querySelectorAll('.menu-dots').forEach(function (toggle) {
+                toggle.classList.remove('is-hidden');
+            });
+            var mobileToggle = document.getElementById('mobileMenuToggle');
+            if (mobileToggle) {
+                mobileToggle.classList.remove('open');
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+            var popup = document.getElementById('menuPopup');
+            var toggle = document.getElementById('mobileMenuToggle');
+            if (popup.classList.contains('open') && !popup.contains(event.target) && event.target !== toggle && !toggle.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeMenu();
+            }
+        });
+
+        (function () {
+            var trigger = document.getElementById('mobileMenuToggle');
+            var popup = document.getElementById('menuPopup');
+            var lastScrollY = window.scrollY;
+            var scrollThreshold = 10;
+
+            window.addEventListener('scroll', function () {
+                if (!trigger) return;
+                if (popup && popup.classList.contains('open')) return;
+
+                var currentScrollY = window.scrollY;
+                if (Math.abs(currentScrollY - lastScrollY) < scrollThreshold) return;
+
+                if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                    trigger.classList.add('scroll-hidden');
+                } else {
+                    trigger.classList.remove('scroll-hidden');
+                }
+                lastScrollY = currentScrollY;
+            }, { passive: true });
+        })();
+    </script>
+</body>
+</html>
