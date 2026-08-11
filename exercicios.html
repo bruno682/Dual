@@ -16,13 +16,14 @@
         html, body {
             min-height: 100%;
             background: #FFFFE0;
+            transition: background 0.35s ease;
         }
 
         body {
             font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
             color: #581E30;
             position: relative;
-            padding-bottom: 120px;
+            padding-bottom: 90px;
             transition: background 0.35s ease, color 0.35s ease;
         }
 
@@ -57,7 +58,7 @@
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             align-items: flex-start;
-            padding: 4vh 5vw 2vh;
+            padding: 3vh 5vw 3vh;
         }
 
         .brand {
@@ -82,7 +83,7 @@
         }
 
         .round-label {
-            width: clamp(64px, 5.2vw, 108px);
+            width: clamp(46px, 4vw, 80px);
             height: auto;
             display: block;
         }
@@ -135,7 +136,7 @@
         .mode-toggle {
             display: flex;
             width: fit-content;
-            margin: 1.5vh auto 3.4vh;
+            margin: 0.3vh auto 0.7vh;
             border: 1.5px solid currentColor;
             border-radius: 999px;
             padding: 4px;
@@ -148,13 +149,13 @@
             background: none;
             font-family: "5by7", "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-style: normal;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             line-height: normal;
             letter-spacing: 0.4px;
             text-transform: uppercase;
             color: inherit;
-            padding: 9px 22px;
+            padding: 7px 18px;
             border-radius: 999px;
             cursor: pointer;
             transition: background 0.3s ease, color 0.3s ease;
@@ -173,34 +174,58 @@
         .stations {
             display: flex;
             flex-direction: column;
-            gap: 2.4vh;
-        }
-
-        .station-body {
-            min-width: 0;
+            gap: 0.15vh;
         }
 
         .station-name {
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
             text-align: center;
-            font-size: clamp(16px, 4vw, 20px);
+            font-size: clamp(13px, 2.8vw, 16px);
             font-weight: 500;
             letter-spacing: -0.01em;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
+        }
+
+        .station-row {
+            position: relative;
+        }
+
+        .station-num {
+            position: absolute;
+            right: calc(50% + min(70%, 260px) / 2 + 42px);
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: "5by7", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: clamp(28px, 7vw, 42px);
+            line-height: 1;
+            color: #A85C2E;
+            transition: color 0.35s ease;
+        }
+
+        body[data-mode="avancado"] .station-num {
+            color: #F5A139;
         }
 
         .station-cards {
+            width: 70%;
+            max-width: 260px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 26px;
         }
 
         .s-card {
             background: #581E30;
-            border-radius: 12px;
-            padding: 10px 14px 12px;
+            border-radius: 9px;
+            padding: 5px 8px 6px;
+            height: 50px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            justify-content: flex-start;
+            gap: 1px;
             transition: background 0.35s ease;
         }
 
@@ -209,10 +234,12 @@
         }
 
         .s-label {
-            font-size: 12px;
-            font-weight: 500;
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 8px;
+            font-weight: 400;
             color: #F0B27A;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
+            white-space: nowrap;
         }
 
         body[data-mode="avancado"] .s-label {
@@ -220,13 +247,15 @@
         }
 
         .s-value {
-            font-size: 16px;
-            font-weight: 700;
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 400;
             color: #FFFFE0;
         }
 
         .s-extra {
-            font-size: 15px;
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 11px;
             font-weight: 400;
             color: #FFFFE0;
         }
@@ -398,14 +427,6 @@
                 width: 100%;
                 text-align: center;
             }
-
-            .s-value {
-                font-size: 14px;
-            }
-
-            .s-extra {
-                font-size: 13px;
-            }
         }
     </style>
 </head>
@@ -495,15 +516,19 @@
 
         function renderStations() {
             var list = stationsData[currentLevel];
-            stationsEl.innerHTML = list.map(function (s) {
+            stationsEl.innerHTML = list.map(function (s, i) {
+                var num = String(i + 1).padStart(2, '0');
                 var mExtra = s.m.extra ? '<span class="s-extra">' + s.m.extra + '</span>' : '';
                 var fExtra = s.f.extra ? '<span class="s-extra">' + s.f.extra + '</span>' : '';
                 return (
-                    '<div class="station-body">' +
+                    '<div class="station">' +
                         '<h2 class="station-name">' + s.name + '</h2>' +
-                        '<div class="station-cards">' +
-                            '<div class="s-card"><span class="s-label">Masculino / Misto</span><span class="s-value">' + s.m.value + '</span>' + mExtra + '</div>' +
-                            '<div class="s-card"><span class="s-label">Feminino</span><span class="s-value">' + s.f.value + '</span>' + fExtra + '</div>' +
+                        '<div class="station-row">' +
+                            '<span class="station-num">' + num + '</span>' +
+                            '<div class="station-cards">' +
+                                '<div class="s-card"><span class="s-label">Masculino / Misto</span><span class="s-value">' + s.m.value + '</span>' + mExtra + '</div>' +
+                                '<div class="s-card"><span class="s-label">Feminino</span><span class="s-value">' + s.f.value + '</span>' + fExtra + '</div>' +
+                            '</div>' +
                         '</div>' +
                     '</div>'
                 );
@@ -524,6 +549,7 @@
 
             currentLevel = btn.dataset.mode;
             document.body.setAttribute('data-mode', currentLevel);
+            document.documentElement.style.background = currentLevel === 'avancado' ? '#581E30' : '#FFFFE0';
             renderStations();
         });
 
