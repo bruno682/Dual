@@ -179,6 +179,33 @@
             color: #581E30;
         }
 
+        .regulamento-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: fit-content;
+            margin: 0 auto 2.2vh;
+            padding: 7px 16px;
+            border-radius: 999px;
+            border: 1px solid currentColor;
+            color: inherit;
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .regulamento-link:hover {
+            opacity: 0.7;
+        }
+
+        .regulamento-link svg {
+            display: block;
+            flex-shrink: 0;
+        }
+
         .stations {
             display: flex;
             flex-direction: column;
@@ -461,6 +488,15 @@
             <button type="button" class="mode-btn" data-mode="avancado">Avançado</button>
         </div>
 
+        <a class="regulamento-link" href="Regulamento_DUAL_3.pdf" target="_blank" rel="noopener">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M14 2v6h6" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M12 11v6M12 17l-2.5-2.5M12 17l2.5-2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Ver Regulamento
+        </a>
+
         <div class="stations" id="stations"></div>
     </main>
 
@@ -480,7 +516,8 @@
             </svg>
         </span>
         <a class="popup-link" href="exercicios.html">Exercícios</a>
-        <a class="popup-link">Inscrição</a>
+        <a class="popup-link" href="premios.html">Prémios</a>
+        <a class="popup-link" href="https://racefinder.pt/event/dual-3/" target="_blank" rel="noopener">Inscrição</a>
     </nav>
 
     <button class="mobile-menu-trigger" id="mobileMenuToggle" type="button" onclick="toggleMenu(event)">
