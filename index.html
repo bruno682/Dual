@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dual — Round 3</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="stylesheet" href="https://use.typekit.net/sbt4grx.css">
     <style>
         * {
             margin: 0;
@@ -18,7 +19,7 @@
         }
 
         body {
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-family: "neue-haas-grotesk-display", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         .hero {
@@ -85,7 +86,7 @@
             grid-template-columns: 1fr auto 1fr;
             align-items: flex-start;
             padding: 4vh 5vw 2vh;
-            z-index: 10;
+            z-index: 5;
         }
 
         .brand {
@@ -201,37 +202,10 @@
             opacity: 0.75;
         }
 
-        .cta {
-            position: absolute;
-            top: 51%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: clamp(220px, 27vw, 560px);
-            display: block;
-            z-index: 10;
-            transition: transform 0.25s ease;
-            animation: ctaPulse 1s ease-in-out infinite;
-        }
-
-        .cta:hover {
-            animation-play-state: paused;
-            transform: translate(-50%, -50%) scale(1.04);
-        }
-
-        @keyframes ctaPulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.06);
-            }
-        }
-
-        .cta img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
+        .popup-link-disabled {
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.4;
         }
 
         .mobile-menu-trigger {
@@ -270,6 +244,23 @@
             height: 18px;
             width: auto;
             display: block;
+        }
+
+        .cta {
+            position: absolute;
+            top: 51%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(220px, 27vw, 560px);
+            display: block;
+            z-index: 5;
+        }
+
+        .cta img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
         }
 
         @media (max-width: 768px) {
@@ -385,11 +376,11 @@
             </span>
             <a class="popup-link" href="exercicios.html">Exercícios</a>
             <a class="popup-link" href="premios.html">Prémios</a>
-            <a class="popup-link" href="inscricao.html">Inscrição</a>
+            <a class="popup-link" href="https://racefinder.pt/event/dual-3/" target="_blank" rel="noopener">Inscrição</a>
         </nav>
 
-        <a class="cta" href="inscricao.html">
-            <img src="botao.png" alt="Inscrever agora">
+        <a class="cta" href="https://racefinder.pt/event/dual-3/" target="_blank" rel="noopener">
+            <img src="botao.png" alt="Inscrever">
         </a>
 
         <button class="mobile-menu-trigger" id="mobileMenuToggle" type="button" onclick="toggleMenu(event)">
@@ -402,6 +393,7 @@
             </svg>
             <img class="menu-word" src="Menu%20texto.svg" alt="Menu">
         </button>
+
     </section>
 
     <script>
